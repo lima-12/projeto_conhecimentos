@@ -1,13 +1,36 @@
 <?php
 
-$checkboxValues = [0, 0, 1];
-
-$checkbox1 = $checkboxValues[0] == 1 ? "checked" : "";
-$checkbox2 = $checkboxValues[1] == 1 ? "checked" : "";
-$checkbox3 = $checkboxValues[2] == 1 ? "checked" : "";
+// Inclua o arquivo de conexão com o banco de dados
+require 'config.php';
 
 
-// print_r($checkboxValues);
+if (isset($_POST["submit"])) {
+   $sqlInsert = "INSERT INTO usuarios_cadastrados (nome, gmail, telefone, sexo, data, linguagem, texto) VALUES (:nome, :gmail, :telefone, :sexo, :data, :linguagem, :texto)";
+   
+   $statement = $pdo->prepare($sqlInsert);
+   
+   // Use os nomes corretos dos parâmetros na função bindValue
+   $statement->bindValue(':nome', $_POST['nome']);
+   $statement->bindValue(':gmail', $_POST['gmail']);
+   $statement->bindValue(':telefone', $_POST['telefone']);
+   $statement->bindValue(':sexo', $_POST['sexo']);
+
+   // Certifique-se de que a data seja uma data válida
+   $data = date('Y-m-d', strtotime($_POST['data']));
+   $statement->bindValue(':data', $data);
+   
+   // Vincule o valor diretamente ao checkbox
+   $statement->bindValue(':linguagem', $_POST['checkbox']);
+   
+   $statement->bindValue(':texto', $_POST['textarea']);
+   
+   if ($statement->execute()) {
+      echo "<script type='text/javascript'>alert('Inserido com Sucesso');</script>";
+   } else {
+       echo 'Erro ao inserir usuário!';
+   }
+}
+
 
  ?>
 
@@ -16,7 +39,7 @@ $checkbox3 = $checkboxValues[2] == 1 ? "checked" : "";
  <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Funcções Auxiliares</title>
+    <title>Formulário</title>
 
     <!-- importações -->
 
@@ -32,46 +55,98 @@ $checkbox3 = $checkboxValues[2] == 1 ? "checked" : "";
  <style>
    body{
       font-family: Arial, Helvetica, sans-serif;
+      /* background: rgb(2,0,36);
+      background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,121,33,1) 100%, rgba(0,212,255,1) 100%); */
+      /* background-color: #302F3D; */
+      background-color: #22212C;
    }
 
-   #principal{
-      margin: 10%;
+   main{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 1em;
+      padding: 10% 30%;
+      
    }
+
+   #principal_esquerda{
+      color: white;
+      padding: 4%;
+      /* margin: 1em; */
+      background-color: #837E9F;
+      border-radius: 10px;
+   }
+
+   .form-control{
+      /* background: #302F3D; */
+   }
+
+
  </style>
 
-<main id="principal">
+<main>
 
-   <section>
-      <form method="post" action="tratar.php">
-         <h3 class="text-center mb-4">Preencha de acordo com o seu Perfil!</h3> 
+   <section id="principal_esquerda">
+      <form method="post" action="index.php">
 
-         <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="1" id="flexCheckChecked" name="checkbox1" <?php echo $checkbox1; ?>>
-            <label class="form-check-label" for="">Php</label>
+         <div class="row g-4  "> 
+
+            <div class="col-sm-6">
+               <input type="text" class="form-control" name="nome" id="nome" placeholder="Nome">
+            </div>   
+            <div class="col-sm-6">
+               <input type="text" class="form-control" name="gmail" id="gmail" placeholder="Gmail">
+            </div>
+
+            <div class="col-sm-4"> 
+               <input type="tel" class="form-control" name="telefone" id="telefone" placeholder="Telefone">
+            </div>
+            <div class="col-sm-4">
+               <input type="date" class="form-control" name="data" id="data" placeholder="">
+            </div>
+            <div class="col-sm-4">
+               <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="sexo" id="inlineRadio1" value="m">
+                  <label class="form-check-label" for="inlineRadio1">Masculino</label>
+               </div>
+               <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="sexo" id="inlineRadio2" value="f">
+                  <label class="form-check-label" for="inlineRadio2">Femenino</label>
+               </div>
+            </div>
+
+
+            <label for="" class="form-label m-1">Qual a sua Preferência na área</label> 
+            <div class="col-4">
+               <div class="form-check m-1">
+                  <input class="form-check-input" type="radio" value="front_end" id="front_end" name="checkbox">
+                  <label class="form-check-label" for="">Front-End</label>
+               </div>
+            </div>
+
+            <div class="col-4">
+               <div class="form-check m-1">
+                  <input class="form-check-input" type="radio" value="back_end" id="back_end" name="checkbox">
+                  <label class="form-check-label" for="">Back-End</label>
+               </div>
+            </div>
+
+            <div class="col-4">
+               <div class="form-check m-1">
+                  <input class="form-check-input" type="radio" value="full_stack" id="full_stack" name="checkbox">
+                  <label class="form-check-label" for="">Full Stack</label>
+               </div>
+            </div>
+
+            <div class="col-12">               
+               <textarea class="form-control" id="textarea" name="textarea" rows="3" placeholder="Por que Você gostaria de fazer parte da Empresa?"></textarea>
+            </div>
+
+            <div class="col-12">
+               <button class="btn btn-primary" type="submit" name="submit" id="submit">Submit form</button>
+            </div>
          </div>
-
-         <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="1" id="flexCheckChecked" name="checkbox2" <?php echo $checkbox2; ?>>
-            <label class="form-check-label" for="">HTML e CSS</label>
-         </div>
-
-         <div class="form-check mb-4">
-            <input class="form-check-input" type="checkbox" value="1" id="flexCheckChecked" name="checkbox3" <?php echo $checkbox3; ?>>
-            <label class="form-check-label" for="">JavaScript</label>
-         </div>
-
-         <div class="mb-4"> <!--margim button (abaixo)-->
-            <label for="Textarea" class="form-label">Por que Você gostaria de fazer parte da empresa?</label>
-            <textarea class="form-control" id="Textarea" rows="3"></textarea>
-         </div>
-
-         <div class="mb-4">
-            <label for="formFile" class="form-label">Envie seu currículo</label>
-            <input class="form-control" type="file" id="formFile">
-         </div>
-
-         <br><br>
-         <button class="btn btn-primary">enviar</button>
       </form>
          
       </section>
