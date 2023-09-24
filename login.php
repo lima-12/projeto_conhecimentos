@@ -11,6 +11,10 @@
 
     <!-- importações -->
 
+    <script src="util/script/jquery-1.11.3.js"></script>
+    <script src="util/script/jquery.validate.min.js"></script>
+    <script src="util/script/additional-methods.min.js"></script>
+
     <!-- bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     
@@ -20,40 +24,57 @@
 
 <body>
 
- <style>
+<style>
    body{
       font-family: Arial, Helvetica, sans-serif;
+      /* background: rgb(2,0,36);
+      background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,121,33,1) 100%, rgba(0,212,255,1) 100%); */
+      /* background-color: #302F3D; */
+      background-color: #22212C;
    }
 
-   #principal{
-      margin: 10%;
+   main{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 1em;
+      padding: 10% 30%;
+      
    }
+
+   section{
+      color: white;
+      padding: 4%;
+      /* margin: 1em; */
+      background-color: #837E9F;
+      border-radius: 10px;
+   }
+
  </style>
 
 <main>
-
-   <h3 class="text-center">Faça seu cadastro!</h3> 
-
    <section id="principal">
-      <form method="post" action="#">
+
+      <form method="post" action="verifica_login.php">
 
         <div class="row g-4">
             <div class="col-6">
-               <label for="inputEmail4" class="form-label">Email</label>
-               <input type="email" class="form-control" id="inputEmail4">
+               <label for="inputEmail" class="form-label">Email</label>
+               <input type="email" class="form-control" id="inputEmail" name="inputEmail">
+               <div id="mensagem"></div>
             </div>
             <div class="col-6">
-               <label for="inputPassword4" class="form-label">Password</label>
-               <input type="password" class="form-control" id="inputPassword4">
+               <label for="inputPassword" class="form-label">Password</label>
+               <input type="password" class="form-control" id="inputPassword" name="inputPassword">
             </div>
-            <div class="">
-                <button class="btn btn-primary">enviar</button>
+            <div class="col-12">
+               <button class="btn btn-primary" type="submit" name="submit" id="submit">Entrar</button>
+               <a href="index.php"><button class="btn btn-success" type="button">Cadastrar-se</button></a>
             </div>
         </div>
 
       </form>
-         
-      </section>
+   </section>
 
 </main>
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
@@ -61,32 +82,4 @@
  </html>
 
  <script>
-
-function Mudarestado(section)
-{
-    /*
-    Função que adiciona e remove seção da página através dos atributos block e none
-    */
-    var display = document.getElementById(section).style.display;
-    if(display == "none")
-       document.getElementById(section).style.display = 'block';
-    else
-       document.getElementById(section).style.display = 'none';
-}
-
-function preencheCheckboox()
-{
-    // Obtém todos os checkboxes da página com esse id especifico
-   var checkboxes = document.querySelectorAll('input[id="flexCheckChecked"]');
-
-    // Verifica o estado do primeiro checkbox para determinar a ação
-    var firstCheckbox = checkboxes[0];
-    var isChecked = firstCheckbox.checked;
-
-       // Alterna o estado de todos os checkboxes
-    checkboxes.forEach(function(checkbox) {
-        checkbox.checked = !isChecked;
-    });
-}
-
  </script>

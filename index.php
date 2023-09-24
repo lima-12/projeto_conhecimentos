@@ -5,7 +5,7 @@ require 'config.php';
 
 
 if (isset($_POST["submit"])) {
-   $sqlInsert = "INSERT INTO usuarios_cadastrados (nome, gmail, telefone, sexo, data, linguagem, texto) VALUES (:nome, :gmail, :telefone, :sexo, :data, :linguagem, :texto)";
+   $sqlInsert = "INSERT INTO usuarios_cadastrados (nome, gmail, telefone, senha, linguagem, texto) VALUES (:nome, :gmail, :telefone, :senha,  :linguagem, :texto)";
    
    $statement = $pdo->prepare($sqlInsert);
    
@@ -13,11 +13,7 @@ if (isset($_POST["submit"])) {
    $statement->bindValue(':nome', $_POST['nome']);
    $statement->bindValue(':gmail', $_POST['gmail']);
    $statement->bindValue(':telefone', $_POST['telefone']);
-   $statement->bindValue(':sexo', $_POST['sexo']);
-
-   // Certifique-se de que a data seja uma data válida
-   $data = date('Y-m-d', strtotime($_POST['data']));
-   $statement->bindValue(':data', $data);
+   $statement->bindValue(':senha', $_POST['senha']);
    
    // Vincule o valor diretamente ao checkbox
    $statement->bindValue(':linguagem', $_POST['checkbox']);
@@ -82,15 +78,16 @@ if (isset($_POST["submit"])) {
       /* background: #302F3D; */
    }
 
-
  </style>
 
 <main>
 
    <section id="principal_esquerda">
+
+      <h3>Faça seu Cadastro!</h3>
       <form method="post" action="index.php">
 
-         <div class="row g-4  "> 
+         <div class="row g-4"> 
 
             <div class="col-sm-6">
                <input type="text" class="form-control" name="nome" id="nome" placeholder="Nome">
@@ -99,12 +96,14 @@ if (isset($_POST["submit"])) {
                <input type="text" class="form-control" name="gmail" id="gmail" placeholder="Gmail">
             </div>
 
-            <div class="col-sm-4"> 
+            <div class="col-sm-6"> 
                <input type="tel" class="form-control" name="telefone" id="telefone" placeholder="Telefone">
             </div>
-            <div class="col-sm-4">
+
+            <!-- <div class="col-sm-4">
                <input type="date" class="form-control" name="data" id="data" placeholder="">
             </div>
+
             <div class="col-sm-4">
                <div class="form-check form-check-inline">
                   <input class="form-check-input" type="radio" name="sexo" id="inlineRadio1" value="m">
@@ -114,8 +113,11 @@ if (isset($_POST["submit"])) {
                   <input class="form-check-input" type="radio" name="sexo" id="inlineRadio2" value="f">
                   <label class="form-check-label" for="inlineRadio2">Femenino</label>
                </div>
-            </div>
+            </div> -->
 
+            <div class="col-sm-6">
+               <input type="password" class="form-control" name="senha" id="senha" placeholder="Senha">
+            </div>
 
             <label for="" class="form-label m-1">Qual a sua Preferência na área</label> 
             <div class="col-4">
@@ -144,7 +146,7 @@ if (isset($_POST["submit"])) {
             </div>
 
             <div class="col-12">
-               <button class="btn btn-primary" type="submit" name="submit" id="submit">Submit form</button>
+               <button class="btn btn-primary" type="submit" name="submit" id="submit">Salvar</button>
             </div>
          </div>
       </form>
