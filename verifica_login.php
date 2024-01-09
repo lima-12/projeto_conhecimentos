@@ -7,7 +7,7 @@ require 'config.php';
 $email = $_POST['inputEmail'];
 
 $sqlSelect = "SELECT * FROM usuarios_cadastrados WHERE gmail = :email";  
-   
+
 $statement = $pdo->prepare($sqlSelect);
 
 $statement->bindParam(':email', $email, PDO::PARAM_STR);
